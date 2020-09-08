@@ -38,10 +38,22 @@ using LinearAlgebra
         @test determinant(float.(mat)) == det(mat)
         @test abs(det(mat) - determinant(mat)) < tol
         for n in [5, 6, 7, 8]
-            a = rand(-3:3, (n, n))
-            det1 = det(a)
-            det2 = determinant(a)
-            @test abs(det1 - det2) < Base.rtoldefault(Float64)
+            let
+                a = big.(rand(-3:3, (n, n)) + 30*I)
+                @test abs(det(a) - determinant(a)) < tol
+                b = big.(rand(-2:2, (n, n)) + im*rand(-2:2, (n,n)) + 10*I)
+                @test abs(det(b) - determinant(b)) < tol
+            end
+            let
+                a = big.(rand(-3:3, (n, n))//4 + 30*I)
+                @test abs(det(a) - determinant(a)) < tol
+                b = big.(rand(-2:2, (n, n))//4 + im*rand(-2:2, (n,n)) + 10*I)
+                @test abs(det(b) - determinant(b)) < tol
+            end
+            c = rand(Float64, (n, n)) + 30*I
+            @test abs(det(c) - determinant(c)) < tol
+            d = rand(ComplexF64, (n, n)) + 30*I
+            @test abs(det(d) - determinant(d)) < tol
         end
     end # testset determinant
 
@@ -54,12 +66,23 @@ using LinearAlgebra
         @test maximum(abs.(inv(mat) - inverse(float.(mat)))) < tol
         @test maximum(abs.(inv(mat) - inverse(mat))) < tol
         for n in [5, 6, 7, 8]
-            a = rand(-3:3, (n, n)) + 30*I
-            inv1 = inv(a)
-            inv2 = inverse(a)
-            @test maximum(abs.(inv1 - inv2)) < tol
+            let
+                a = rand(-3:3, (n, n)) + 30*I
+                @test maximum(abs.(inv(float.(a)) - inverse(big.(a)))) < tol
+                b = rand(-3:3, (n, n)) + im*rand(-3:3, (n,n)) + 30*I
+                @test maximum(abs.(inv(float.(b)) - inverse(big.(b)))) < tol
+            end
+            let
+                a = rand(-3:3, (n, n))//4 + 30*I
+                @test maximum(abs.(inv(float.(a)) - inverse(big.(a)))) < tol
+                b = rand(-3:3, (n, n))//4 + im*rand(-3:3, (n,n))+ 30*I
+                @test maximum(abs.(inv(float.(b)) - inverse(big.(b)))) < tol
+            end
+            c = rand(Float64, (n, n)) + 30*I
+            @test maximum(abs.(inv(float.(c)) - inverse(c))) < tol
+            d = rand(ComplexF64, (n, n)) + 30*I
+            @test maximum(abs.(inv(float.(d)) - inverse(d))) < tol
         end
-
     end
 end # testset ExactLinearAlgebra
 

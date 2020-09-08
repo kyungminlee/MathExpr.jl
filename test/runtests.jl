@@ -2,7 +2,7 @@ using Test
 using MathExpr
 using LinearAlgebra
 
-@testset "ExactLinearAlgebra" begin
+@testset "linear algebra" begin
     mat = Int[
         1 2 3;
         4 5 2;

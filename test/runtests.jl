@@ -102,4 +102,8 @@ end
     @test cleanupnumber([1.0 + 1E-12, 2.0 - 1E-12, 3.0], 1E-8) == [1.0, 2.0, 3.0]
     @test cleanupnumber(0.1234567, 1E-8) == 0.1234567
     @test cleanupnumber(-1//3, 1E-8) == -1//3
+    @test cleanupnumber(42 + im, 1E-8) == 42 + im
+    @test cleanupnumber(1.5 + 1E-12 + 1.0im, 1E-8) == 1.5 + 1.0im
+    @test cleanupnumber([1.0 + 1E-12 + 1.0im, 2.0 - 1E-12 + 2.0im - 1E-12im, 3.0 + 3.0im + 1E-12im], 1E-8) == [1.0 + 1.0im, 2.0 + 2.0im, 3.0 + 3.0im]
+    @test cleanupnumber(1//2 + 3im//4, 1E-8) == 1//2 + 3im//4
 end

@@ -76,6 +76,7 @@ end # testset ExactLinearAlgebra
     @test parseexpr("i") == im
     @test parseexpr("cis(2)") == cis(2)
     @test parseexpr("exp(2i)") == exp(2im)
+    @test parseexpr("cispi(0.5)") == cospi(0.5) + im*sinpi(0.5)
     @test parseexpr("[10, π, exp(1)]") == [10, π, exp(1)]
     @test parseexpr("[10 π]") == [10 π]
     @test parseexpr("[1 2; 3 4]") == [1 2; 3 4]

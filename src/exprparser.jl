@@ -1,5 +1,6 @@
 export parseexpr
 
+#=
 for (TL, TR, OP) in [
     (Integer, Integer, ://),
     (Integer, Rational, ://),
@@ -14,15 +15,17 @@ for (TL, TR, OP) in [
         divide(lhs::Complex{<:$TL}, rhs::Complex{<:$TR}) = ($OP)(lhs, rhs)
     end
 end
-
 rdivide(lhs::Number, rhs::Number) = divide(rhs, lhs)
+=#
 
 cispi(arg::Number) = cospi(arg) + im*sinpi(arg)
 
 SYMBOL_DATABASE = Dict(
     :i => im,  :im => im,
     :pi => pi,  :π => π,
-    :+ => (+),  :- => (-),  :* => (*),  :/ => (divide),  :\ => (rdivide),  :^ => (^),  :// => (divide),
+    :+ => (+),  :- => (-),  :* => (*),  :^ => (^),
+    #:/ => (divide),  :\ => (rdivide), :// => (divide),
+    :/ => (/), :\ => (\), :// => (//),
     :cos => cos,  :sin => sin,  :tan => tan,
     :cosh => cosh,  :sinh => sinh,  :tanh => tanh,
     :exp => exp,
@@ -40,7 +43,7 @@ function evalexpr(expr::Symbol)
     if haskey(SYMBOL_DATABASE, expr)
         return SYMBOL_DATABASE[expr]
     else
-        error("unsupported symbol $expr")
+        throw(ArgumentError("unsupported symbol $expr"))
     end
 end
 

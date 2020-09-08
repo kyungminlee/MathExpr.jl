@@ -70,6 +70,8 @@ parseexpr(expr::Number) = expr
 parseexpr(expr::AbstractString) = evalexpr(Meta.parse(expr))
 parseexpr(expr::AbstractArray) = [parseexpr(elem) for elem in expr]
 
+@deprecate parse_expr(x) parseexpr(x)
+
 #= # commented for now
 function parsetable(s::AbstractString)
     s = strip(s)

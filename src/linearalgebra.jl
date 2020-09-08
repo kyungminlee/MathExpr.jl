@@ -40,7 +40,7 @@ function determinant(mat::AbstractMatrix{S}) where {S<:ScalarType}
 end
 
 determinant(mat::AbstractMatrix{<:AbstractFloat}) = LinearAlgebra.det(mat)
-determinant(mat::AbstractMatrix{Complex{<:AbstractFloat}}) = LinearAlgebra.det(mat)
+determinant(mat::AbstractMatrix{<:Complex{<:AbstractFloat}}) = LinearAlgebra.det(mat)
 
 function inverse(mat::AbstractMatrix{S}) where {S<:ScalarType}
     n, m = size(mat)
@@ -59,4 +59,4 @@ function inverse(mat::AbstractMatrix{S}) where {S<:ScalarType}
 end
 
 inverse(mat::AbstractMatrix{<:AbstractFloat}) = LinearAlgebra.inv(mat)
-inverse(mat::AbstractMatrix{Complex{<:AbstractFloat}}) = LinearAlgebra.inv(mat)
+inverse(mat::AbstractMatrix{<:Complex{<:AbstractFloat}}) = LinearAlgebra.inv(mat)

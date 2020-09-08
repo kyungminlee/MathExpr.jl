@@ -6,7 +6,8 @@ using LinearAlgebra
     mat = Int[
         1 2 3;
         4 5 2;
-        7 8 10]
+        7 8 10
+    ]
 
     @testset "cofactor" begin
         results = Dict(
@@ -37,10 +38,22 @@ using LinearAlgebra
         @test determinant(float.(mat)) == det(mat)
         @test abs(det(mat) - determinant(mat)) < tol
         for n in [5, 6, 7, 8]
-            a = rand(-3:3, (n, n))
-            det1 = det(a)
-            det2 = determinant(a)
-            @test abs(det1 - det2) < Base.rtoldefault(Float64)
+            let
+                a = big.(rand(-3:3, (n, n)) + 30*I)
+                @test abs(det(a) - determinant(a)) < tol
+                b = big.(rand(-2:2, (n, n)) + im*rand(-2:2, (n,n)) + 10*I)
+                @test abs(det(b) - determinant(b)) < tol
+            end
+            let
+                a = big.(rand(-3:3, (n, n))//4 + 30*I)
+                @test abs(det(a) - determinant(a)) < tol
+                b = big.(rand(-2:2, (n, n))//4 + im*rand(-2:2, (n,n)) + 10*I)
+                @test abs(det(b) - determinant(b)) < tol
+            end
+            c = rand(Float64, (n, n)) + 30*I
+            @test abs(det(c) - determinant(c)) < tol
+            d = rand(ComplexF64, (n, n)) + 30*I
+            @test abs(det(d) - determinant(d)) < tol
         end
     end # testset determinant
 
@@ -53,12 +66,23 @@ using LinearAlgebra
         @test maximum(abs.(inv(mat) - inverse(float.(mat)))) < tol
         @test maximum(abs.(inv(mat) - inverse(mat))) < tol
         for n in [5, 6, 7, 8]
-            a = rand(-3:3, (n, n)) + 30*I
-            inv1 = inv(a)
-            inv2 = inverse(a)
-            @test maximum(abs.(inv1 - inv2)) < tol
+            let
+                a = rand(-3:3, (n, n)) + 30*I
+                @test maximum(abs.(inv(float.(a)) - inverse(big.(a)))) < tol
+                b = rand(-3:3, (n, n)) + im*rand(-3:3, (n,n)) + 30*I
+                @test maximum(abs.(inv(float.(b)) - inverse(big.(b)))) < tol
+            end
+            let
+                a = rand(-3:3, (n, n))//4 + 30*I
+                @test maximum(abs.(inv(float.(a)) - inverse(big.(a)))) < tol
+                b = rand(-3:3, (n, n))//4 + im*rand(-3:3, (n,n))+ 30*I
+                @test maximum(abs.(inv(float.(b)) - inverse(big.(b)))) < tol
+            end
+            c = rand(Float64, (n, n)) + 30*I
+            @test maximum(abs.(inv(float.(c)) - inverse(c))) < tol
+            d = rand(ComplexF64, (n, n)) + 30*I
+            @test maximum(abs.(inv(float.(d)) - inverse(d))) < tol
         end
-
     end
 end # testset ExactLinearAlgebra
 
@@ -76,6 +100,7 @@ end # testset ExactLinearAlgebra
     @test parseexpr("i") == im
     @test parseexpr("cis(2)") == cis(2)
     @test parseexpr("exp(2i)") == exp(2im)
+    @test parseexpr("cispi(0.5)") == cospi(0.5) + im*sinpi(0.5)
     @test parseexpr("[10, π, exp(1)]") == [10, π, exp(1)]
     @test parseexpr("[10 π]") == [10 π]
     @test parseexpr("[1 2; 3 4]") == [1 2; 3 4]
@@ -102,4 +127,38 @@ end
     @test cleanupnumber([1.0 + 1E-12, 2.0 - 1E-12, 3.0], 1E-8) == [1.0, 2.0, 3.0]
     @test cleanupnumber(0.1234567, 1E-8) == 0.1234567
     @test cleanupnumber(-1//3, 1E-8) == -1//3
+    @test cleanupnumber(42 + im, 1E-8) == 42 + im
+    @test cleanupnumber(1.5 + 1E-12 + 1.0im, 1E-8) == 1.5 + 1.0im
+    @test cleanupnumber([1.0 + 1E-12 + 1.0im, 2.0 - 1E-12 + 2.0im - 1E-12im, 3.0 + 3.0im + 1E-12im], 1E-8) == [1.0 + 1.0im, 2.0 + 2.0im, 3.0 + 3.0im]
+    @test cleanupnumber(1//2 + 3im//4, 1E-8) == 1//2 + 3im//4
+end
+
+
+@testset "misc" begin
+    @testset "gcd" begin
+        using MathExpr: extendedgcd
+        let x = 3, y = 0
+            r, (a,b) = extendedgcd(x,y)
+            @test r == 3
+            @test a*x + b*y == r
+        end
+        let x = 0, y = -3
+            r, (a,b) = extendedgcd(x,y)
+            @test r == 3
+            @test a*x + b*y == r
+        end
+
+        for sx in [-1,1], sy in [-1,1]
+            let x = 3*sx, y = 4*sy
+                r, (a,b) = extendedgcd(x,y)
+                @test r == 1
+                @test a*x + b*y == r
+            end
+            let x = 6*sx, y = 9*sy
+                r, (a,b) = extendedgcd(x,y)
+                @test r == 3
+                @test a*x + b*y == r
+            end
+        end
+    end
 end

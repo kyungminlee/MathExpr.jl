@@ -1,5 +1,5 @@
-
 export cleanupnumber
+
 function cleanupnumber(x::AbstractFloat, tol::Real)
     units = [16, 16/sqrt(3), 16*sqrt(3)]
     for unit in units
@@ -18,3 +18,5 @@ function cleanupnumber(x::Complex, tol::Real)
 end
 
 cleanupnumber(x::AbstractArray, tol::Real) = [cleanupnumber(y, tol) for y in x]
+
+@deprecate cleanup_number(x) cleanupnumber(x)

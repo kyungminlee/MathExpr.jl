@@ -6,7 +6,8 @@ using LinearAlgebra
     mat = Int[
         1 2 3;
         4 5 2;
-        7 8 10]
+        7 8 10
+    ]
 
     @testset "cofactor" begin
         results = Dict(
@@ -107,4 +108,34 @@ end
     @test cleanupnumber(1.5 + 1E-12 + 1.0im, 1E-8) == 1.5 + 1.0im
     @test cleanupnumber([1.0 + 1E-12 + 1.0im, 2.0 - 1E-12 + 2.0im - 1E-12im, 3.0 + 3.0im + 1E-12im], 1E-8) == [1.0 + 1.0im, 2.0 + 2.0im, 3.0 + 3.0im]
     @test cleanupnumber(1//2 + 3im//4, 1E-8) == 1//2 + 3im//4
+end
+
+
+@testset "misc" begin
+    @testset "gcd" begin
+        using MathExpr: extendedgcd
+        let x = 3, y = 0
+            r, (a,b) = extendedgcd(x,y)
+            @test r == 3
+            @test a*x + b*y == r
+        end
+        let x = 0, y = -3
+            r, (a,b) = extendedgcd(x,y)
+            @test r == 3
+            @test a*x + b*y == r
+        end
+
+        for sx in [-1,1], sy in [-1,1]
+            let x = 3*sx, y = 4*sy
+                r, (a,b) = extendedgcd(x,y)
+                @test r == 1
+                @test a*x + b*y == r
+            end
+            let x = 6*sx, y = 9*sy
+                r, (a,b) = extendedgcd(x,y)
+                @test r == 3
+                @test a*x + b*y == r
+            end
+        end
+    end
 end

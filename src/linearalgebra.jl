@@ -59,3 +59,4 @@ function inverse(mat::AbstractMatrix{S}) where {S<:ScalarType}
 end
 
 inverse(mat::AbstractMatrix{<:AbstractFloat}) = LinearAlgebra.inv(mat)
+inverse(mat::AbstractMatrix{Complex{<:AbstractFloat}}) = LinearAlgebra.inv(mat)

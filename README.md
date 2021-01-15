@@ -1,6 +1,6 @@
 # MathExpr.jl
 
-**Build Statis**: [![Check packages][githubaction-img]][githubaction-url]
+**Build Statis**: [![Build Test Submit][githubaction-img]][githubaction-url]
 **Code Coverage**: [![Code Coverage][codecov-img]][codecov-url]
 
 `MathExpr.jl` provides a simple parser for mathematical expressions using Julia's parser.

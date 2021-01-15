@@ -1,8 +1,7 @@
 # MathExpr.jl
 
-| **Build Status** | **Code Coverage** |
-|:----------------:|:-----------------:|
-| [![Build Status][travis-img]][travis-url] [![Build Status][appveyor-img]][appveyor-url] | [![Code Coverage][codecov-img]][codecov-url] [![Code Coverage][coveralls-img]][coveralls-url] |
+**Build Statis**: [![Check packages][githubaction-img]][githubaction-url]
+**Code Coverage**: [![Code Coverage][codecov-img]][codecov-url]
 
 `MathExpr.jl` provides a simple parser for mathematical expressions using Julia's parser.
 Supported expressions include:
@@ -30,12 +29,8 @@ julia> parseexpr("cos(0.75π)+i*sin(0.5*pi)")
  -0.7071067811865475 + 1.0im
 ```
 
-
-[travis-img]: https://travis-ci.org/kyungminlee/MathExpr.jl.svg?branch=main
-[travis-url]: https://travis-ci.org/kyungminlee/MathExpr.jl
-
-[appveyor-img]: https://ci.appveyor.com/api/projects/status/1yrosfyjvn4u61nw?svg=true
-[appveyor-url]: https://ci.appveyor.com/project/kyungminlee/MathExpr-jl
+[githubaction-img]: https://github.com/kyungminlee/MathExpr.jl/workflows/Check%20packages/badge.svg
+[githubaction-url]: https://github.com/kyungminlee/MathExpr.jl/actions/
 
 [codecov-img]: https://codecov.io/gh/kyungminlee/MathExpr.jl/branch/main/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/kyungminlee/MathExpr.jl

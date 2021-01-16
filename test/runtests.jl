@@ -84,8 +84,7 @@ using LinearAlgebra
             @test maximum(abs.(inv(float.(d)) - inverse(d))) < tol
         end
     end
-end # testset ExactLinearAlgebra
-
+end
 
 @testset "parseexpr" begin
     @test 1 == parseexpr(1)

@@ -1,10 +1,5 @@
 # MathExpr.jl
 
-| **Documentation** | **Build Status** | **Code Coverage** |
-|:-----------------:|:----------------:|:-----------------:|
-| [![**STABLE**][docs-stable-img]][docs-stable-url] [![**DEV**][docs-dev-img]][docs-dev-url] | [![Build][githubaction-img]][githubaction-url] | [![Code Coverage][codecov-img]][codecov-url] |
-
-
 **MathExpr.jl** provides (1) parser `parseexpr` for mathematical expressions using Julia's parser, and (2) exact methods for determinant and inverse for matrices (`determinant` and `inverse`).
 
 Expressions supported by the parser include:
@@ -59,13 +54,9 @@ julia> inv([2.0 0.0; 1.0 3.0])
  -0.166667  0.333333
 ```
 
-[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-stable-url]: http://kyungminlee.org/MathExpr.jl/stable
-[docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
-[docs-dev-url]: http://kyungminlee.org/MathExpr.jl/dev
+## Installation
 
-[githubaction-img]: https://github.com/kyungminlee/MathExpr.jl/workflows/Build/badge.svg
-[githubaction-url]: https://github.com/kyungminlee/MathExpr.jl/actions?query=workflow%3ABuild
-
-[codecov-img]: https://codecov.io/gh/kyungminlee/MathExpr.jl/branch/main/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/kyungminlee/MathExpr.jl
+```julia-repl
+]registry add https://github.com/kyungminlee/KyungminLeeRegistry.jl.git
+add MathExpr
+```

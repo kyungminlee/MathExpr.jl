@@ -14,4 +14,5 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/kyungminlee/MathExpr.jl",
+    devbranch="dev",
 )
